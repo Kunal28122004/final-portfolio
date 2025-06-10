@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Testimonials</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p+U0gUBGQ0c+TfBdWxMX6X+p1htPZzKoX3Z1r7q8bCw+Ha4UQU+/bZYjVZxP+Kx2OlzZoZrR5MxD+lg5rWDs9g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      background: radial-gradient(circle at top left, #1e3c72, #2a5298);
+      color: #ffffff;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      overflow-x: hidden;
+    }
+
+    .testimonials-wrapper {
+      max-width: 1200px;
+      margin: auto;
+      position: relative;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #00ffe7;
+      font-size: 2.5rem;
+      position: relative;
+      animation: fadeInDown 1s ease-out;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    @keyframes zoomBlurIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.9);
+        filter: blur(10px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+      }
+    }
+
+    .testimonial-card {
+      animation: zoomBlurIn 0.7s ease forwards;
+      animation-delay: calc(var(--i) * 0.15s);
+      opacity: 0;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .testimonial-quote {
+      font-style: italic;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .testimonial-quote::before {
+      content: "\f10d";
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      margin-right: 10px;
+      color: #00ffe7;
+    }
+
+    .testimonial-author {
+      text-align: right;
+      font-weight: 600;
+      color: #00ffe7;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 0;
+      left: 0;
+      margin: 20px;
+      padding: 10px 16px;
+      background-color: #00ffe7;
+      color: #0d1b2a;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .back-button:hover {
+      background-color: #00c9b7;
+    }
+
+    body, button, a, input, textarea, select, label {
+      cursor: none;
+    }
+
+    .cursor, .cursor-follower {
+      position: fixed;
+      top: 0;
+      left: 0;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+    }
+    .cursor {
+      width: 12px;
+      height: 12px;
+      background: #00fffc;
+      mix-blend-mode: difference;
+    }
+    .cursor-follower {
+      width: 30px;
+      height: 30px;
+      border: 2px solid #00fffc;
+      opacity: 0.4;
+      mix-blend-mode: difference;
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor"></div>
+  <div class="cursor-follower"></div>
+
+  <div class="testimonials-wrapper">
+    <a href="index.html" class="back-button">← Back</a>
+    <h1>What People Say</h1>
+    <div class="testimonial-grid" id="testimonialGrid"></div>
+  </div>
+
+  <script>
+    const testimonials = [
+      { quote: "This is an amazing product!", author: "Kunal" },
+      { quote: "I highly recommend this service.", author: "Kunal Chuahan" },
+      { quote: "The best experience I've ever had!", author: "Kunal Chuahan" },
+      { quote: "Excellent customer support.", author: "Kunal" },
+      { quote: "Great value for the money.", author: "Kunal Chuahan" }
+    ];
+
+    const testimonialGrid = document.getElementById("testimonialGrid");
+
+    testimonials.forEach((testimonial, index) => {
+      const card = document.createElement("div");
+      card.classList.add("testimonial-card");
+      card.style.setProperty("--i", index);
+      card.innerHTML = `
+        <p class="testimonial-quote">${testimonial.quote}</p>
+        <div class="testimonial-author">— ${testimonial.author}</div>
+      `;
+      testimonialGrid.appendChild(card);
+    });
+
+    const cursor = document.querySelector('.cursor');
+    const cursorFollower = document.querySelector('.cursor-follower');
+    let mouseX = 0, mouseY = 0;
+    let posX = 0, posY = 0;
+
+    function animateCursor() {
+      posX += (mouseX - posX) / 9;
+      posY += (mouseY - posY) / 9;
+      cursorFollower.style.transform = `translate(calc(${posX}px - 50%), calc(${posY}px - 50%))`;
+      cursor.style.transform = `translate(calc(${mouseX}px - 50%), calc(${mouseY}px - 50%))`;
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    const interactiveElements = document.querySelectorAll('a, button, input, textarea, label, .testimonial-card');
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.backgroundColor = '#ff0055';
+        cursorFollower.style.borderColor = '#ff0055';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.backgroundColor = '#00fffc';
+        cursorFollower.style.borderColor = '#00fffc';
+      });
+    });
+  </script>
+</body>
+</html>

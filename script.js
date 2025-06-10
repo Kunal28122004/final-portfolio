@@ -57,8 +57,11 @@ const backToTopButton = document.getElementById('backToTop');
 const aboutBio        = document.getElementById('about-bio');
 const canvas          = document.getElementById('matrixCanvas');
 const ctx             = canvas.getContext('2d');
-
 // ----------- Messages for the Intro -----------
+
+const TYPING_SPEED = 40; // Original feel (40-110ms per character)
+const MESSAGE_GAP = 150; // Between messages (reduced from 500ms)
+const BYPASS_SPEED = 400;
 const messages = [
   "> BOOTING DEVELOPER ENVIRONMENT...",
   "> INITIALIZING CODE MODULES...",
@@ -128,12 +131,13 @@ function drawMatrix() {
   ctx.shadowBlur = 0;
 }
 
-// ----------- Typewriter for Intro Messages -----------
+
+// ----------- Optimized Text Animations -----------
 function typeWriter() {
   if (currentChar < messages[currentMessage].length) {
     hackerText.innerHTML += messages[currentMessage].charAt(currentChar);
     currentChar++;
-    setTimeout(typeWriter, Math.random() * 80 + 30);
+    setTimeout(typeWriter, Math.random() * 70 + TYPING_SPEED);
   } else {
     currentMessage++;
     currentChar = 0;
@@ -141,14 +145,13 @@ function typeWriter() {
       setTimeout(() => {
         hackerText.innerHTML = "";
         typeWriter();
-      }, 500);
+      }, MESSAGE_GAP);
     } else {
       startBypassAnimation();
     }
   }
 }
 
-// ----------- Bypass Animation Sequence -----------
 function startBypassAnimation() {
   bypassAnimation.innerHTML = bypassMessages[0];
   currentBypass = 1;
@@ -158,17 +161,20 @@ function startBypassAnimation() {
       bypassAnimation.innerHTML = bypassMessages[currentBypass];
       currentBypass++;
 
-      if (currentBypass === 3) {
-        // At the third message, flip "ACCESS DENIED" to "ACCESS GRANTED"
+      if (currentBypass === 5) {
         accessDenied.classList.add('access-granted');
         accessDenied.textContent = "ACCESS GRANTED";
       }
     } else {
       clearInterval(bypassInterval);
-      fadeOutIntroShowPortfolio();
+      setTimeout(fadeOutIntroShowPortfolio, 500);
     }
-  }, 800);
+  }, BYPASS_SPEED);
 }
+
+// Start animations
+typeWriter();
+const matrixInterval = setInterval(drawMatrix, 50);
 
 // ----------- Fade Out Intro & Show Portfolio -----------
 function fadeOutIntroShowPortfolio() {
@@ -301,39 +307,25 @@ if (skillsSection) {
 const contactForm = document.getElementById('contactForm');
 const formResponse = document.getElementById('formResponse');
 
-contactForm.addEventListener('submit', async (e) => {
+contactForm.addEventListener('submit', function (e) {
   e.preventDefault();
 
-  // Build a plain JS object from your form fields
-  const data = {
-    name:    contactForm.name.value,
-    email:   contactForm.email.value,
+  // Call EmailJS send function
+  emailjs.send("your_service_id", "your_template_id", {
+    name: contactForm.name.value,
+    email: contactForm.email.value,
     message: contactForm.message.value
-  };
-
-  try {
-    const res = await fetch(contactForm.action, {
-      method: 'POST',
-      body: JSON.stringify(data),                  // send JSON
-      headers: { 'Content-Type': 'application/json' }
-    });
-
-    const result = await res.json();
-    if (result.success) {
-      formResponse.textContent = '✅ Message sent successfully!';
-      formResponse.style.color   = 'lightgreen';
-      contactForm.reset();
-    } else {
-      formResponse.textContent = '❌ Server error. Please try again later.';
-      formResponse.style.color   = 'red';
-    }
-  } catch (error) {
-    formResponse.textContent = '⚠️ Network error. Please try again later.';
-    formResponse.style.color   = 'orange';
-  }
+  })
+  .then(function () {
+    formResponse.textContent = '✅ Message sent successfully!';
+    formResponse.style.color = 'lightgreen';
+    contactForm.reset();
+  }, function (error) {
+    console.error('EmailJS Error:', error);
+    formResponse.textContent = '❌ Failed to send message. Try again.';
+    formResponse.style.color = 'red';
+  });
 });
-
-
 
 // ----------- Back-to-Top Button -----------
 
@@ -386,3 +378,5 @@ document.getElementById('contactForm').addEventListener('submit', e => {
   formResponse.textContent = "✓ Message sent! Thanks for reaching out.";
   e.target.reset();
 });
+
+
