@@ -5,363 +5,192 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kunal’s Portfolio</title>
 
-  <!-- AOS.css for scroll animations (integrity & crossorigin removed) -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"
-  />
-  <link rel="stylesheet" href="style.css">
+  <!-- AOS (Animate On Scroll) Library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
 
-  <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-</script>
-<script type="text/javascript">
-   (function(){
-      emailjs.init({
-        publicKey: "X1np1NxlHDrWq9fkq",
-      });
-   })();
-</script>
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init({ publicKey: "X1np1NxlHDrWq9fkq" });
+    })();
+  </script>
 </head>
 
 <body>
-  <!-- ============================
-       CUSTOM CURSOR ELEMENTS
-       ============================ -->
-  <div class="cursor"></div>
-  <div class="cursor-follower"></div>
-
-  <!-- ============================
-       INTRO SCREEN
-       ============================ -->
-  <div id="quantum-intro" aria-label="Intro Screen">
-    <div class="hex-grid"></div>
-    <div class="quantum-circuit"></div>
+  <!-- INTRO SECTION -->
+  <div id="quantum-intro">
     <canvas class="matrix-rain" id="matrixCanvas"></canvas>
-    <div id="accessDenied" aria-live="assertive">ACCESS DENIED</div>
-    <div class="hacker-text" id="hackerText" aria-live="polite"></div>
-    <div class="bypass-animation" id="bypassAnimation" aria-live="polite"></div>
+    <div id="accessDenied">ACCESS DENIED</div>
+    <div class="hacker-text" id="hackerText"></div>
+    <div class="bypass-animation" id="bypassAnimation"></div>
     <div class="particles" id="particles"></div>
-    <div class="scanlines"></div>
   </div>
 
-  <!-- ============================
-       NAVIGATION BAR
-       ============================ -->
-  <nav id="portfolio-nav" aria-label="Primary navigation">
-  <div class="nav-brand">Kunal</div>
-  <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#achievements">Achievements</a></li>
-    <li><a href="#testimonials">Testimonials</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+  <!-- NAVIGATION BAR -->
+  <nav id="portfolio-nav">
+    <div class="nav-brand">Kunal</div>
+    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#achievements">Achievements</a></li>
+      <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-  <!-- ============================
-       PORTFOLIO CONTENT
-       ============================ -->
-  <section id="portfolio" tabindex="-1" aria-label="Portfolio">
-    <div class="portfolio-container" role="main">
-      <!-- PROFILE HEADER -->
-  <div class="profile-title">
-  <div class="profile-pic" aria-label="Profile Picture" data-tilt>
-    <img
-      src="images/kunal.JPG"
-      alt="Kunal’s photo"
-    />
-  </div>
-
-
-
-<div class="profile-info">
-  <h1 class="fixed-name">Kunal Chauhan</h1>
-  <p id="about-bio" class="fade-in-up"></p>
-</div>
-
- <!-- Resume Button directly under profile pic -->
-  <div class="resume-btn-wrapper">
-    <a
-      href="resume_kunal fnal.pdf"
-      target="_blank"
-      rel="noopener"
-      download
-      class="download-resume"
-    >
-      Download Resume
-    </a>
-  </div>
-
-
-
-      <!-- SKILLS SECTION -->
-  <section id="skills" class="portfolio-section fade-in-up" tabindex="0" data-aos="fade-up">
-  <h2>Skills</h2>
-
-  <div class="filters">
-    <button class="filter-btn active" onclick="filterSkills('all')">All</button>
-    <button class="filter-btn" onclick="filterSkills('dev')">Development</button>
-    <button class="filter-btn" onclick="filterSkills('design')">Design</button>
-    <button class="filter-btn" onclick="filterSkills('tools')">Tools</button>
-  </div>
-
-  <div class="skills-section" id="skills-badges">
-    <div class="skill-badge" data-category="dev" title="Used in 10+ web projects">
-      <i class="fab fa-html5"></i> HTML, CSS & JS
-    </div>
-    <div class="skill-badge" data-category="dev" title="Frontend with components">
-      <i class="fab fa-react"></i> ReactJS
-    </div>
-    <div class="skill-badge" data-category="design" title="Creative illustrations & layouts">
-      <i class="fas fa-paint-brush"></i> CorelDRAW
-    </div>
-    <div class="skill-badge" data-category="dev" title="Cross-platform mobile development">
-      <i class="fas fa-mobile-alt"></i> Flutter
-    </div>
-    <div class="skill-badge" data-category="design" title="Prototyping and UI Design">
-      <i class="fab fa-figma"></i> Figma
-    </div>
-    <div class="skill-badge" data-category="tools" title="Version control & collaboration">
-      <i class="fab fa-git-alt"></i> Git & GitHub
-    </div>
-    <div class="skill-badge" data-category="dev" title="Creative Coding & Visual FX">
-      <i class="fas fa-magic"></i> Visual Effects & Coding
-    </div>
-    <div class="skill-badge" data-category="dev" title="Scripting & automation">
-      <i class="fab fa-python"></i> Python
-    </div>
-    <div class="skill-badge" data-category="dev" title="Relational DB concepts">
-      <i class="fas fa-database"></i> DB Design & Normalization
-    </div>
-    <div class="skill-badge" data-category="dev" title="Data management">
-      <i class="fas fa-database"></i> MySQL
-    </div>
-  </div>
-</section>
-
-
-      <!-- ACHIEVEMENTS & CERTIFICATIONS SECTION -->
-     <section id="achievements" class="portfolio-section fade-in-up" tabindex="0" data-aos="fade-up">
-  <h2>Achievements &amp; Highlights</h2>
-  <div class="achievements-grid">
-    
-    <div class="achievement-card" data-aos="zoom-in">
-      <div class="achievement-badge">🏆</div>
-      <div class="achievement-title">MECIA Hacks 2.0 Top 10 Finalist</div>
-      <div class="achievement-desc">
-        Team 'The Krackers' – Achieved Top 10 position at 24-hour hackathon (Sept 2024).
+  <!-- PROFILE HEADER -->
+  <section id="about" class="portfolio-section">
+    <div class="profile-title">
+      <div class="profile-pic" data-tilt>
+        <img src="images/kunal.JPG" alt="Kunal’s photo" />
+      </div>
+      <div class="profile-info">
+        <h1>Kunal Chauhan</h1>
+        <p id="about-bio">Developer • Designer • Innovator</p>
+        <a href="resume_kunal final.pdf" class="download-resume" download>Download Resume</a>
       </div>
     </div>
+  </section>
 
-    <div class="achievement-card" data-aos="zoom-in" data-aos-delay="100">
-      <div class="achievement-badge">📊</div>
-      <div class="achievement-title">Consistently Ranked in Top 10 – ADCAT Aptitude Test</div>
-      <div class="achievement-desc">
-        Ranked in top 10 more than five times, showcasing strong problem-solving and analytical skills.
+  <!-- SKILLS SECTION -->
+  <section id="skills" class="portfolio-section" data-aos="fade-up">
+    <h2>Skills</h2>
+    <div class="filters">
+      <button onclick="filterSkills('all')">All</button>
+      <button onclick="filterSkills('dev')">Development</button>
+      <button onclick="filterSkills('design')">Design</button>
+      <button onclick="filterSkills('tools')">Tools</button>
+    </div>
+    <div class="skills-section" id="skills-badges">
+      <div class="skill-badge" data-category="dev"><i class="fab fa-html5"></i> HTML, CSS & JS</div>
+      <div class="skill-badge" data-category="dev"><i class="fab fa-react"></i> ReactJS</div>
+      <div class="skill-badge" data-category="dev"><i class="fas fa-mobile-alt"></i> Flutter</div>
+      <div class="skill-badge" data-category="dev"><i class="fab fa-python"></i> Python</div>
+      <div class="skill-badge" data-category="dev"><i class="fas fa-database"></i> MySQL</div>
+      <div class="skill-badge" data-category="design"><i class="fas fa-paint-brush"></i> CorelDRAW</div>
+      <div class="skill-badge" data-category="design"><i class="fab fa-figma"></i> Figma</div>
+      <div class="skill-badge" data-category="tools"><i class="fab fa-git-alt"></i> Git & GitHub</div>
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS SECTION -->
+  <section id="achievements" class="portfolio-section" data-aos="fade-up">
+    <h2>Achievements</h2>
+    <div class="achievements-grid">
+      <div class="achievement-card">
+        <div class="achievement-badge">🏆</div>
+        <div class="achievement-title">Top 10 – MECIA Hacks 2.0</div>
+        <p>Team "The Krackers" – Finalist in 24hr Hackathon (Sept 2024).</p>
+      </div>
+      <div class="achievement-card">
+        <div class="achievement-badge">📊</div>
+        <div class="achievement-title">Top 10 – ADCAT Test</div>
+        <p>Consistently ranked in top 10 multiple times.</p>
+      </div>
+      <div class="achievement-card">
+        <div class="achievement-badge">🕵️‍♂️</div>
+        <div class="achievement-title">Organizer – Tech Heist</div>
+        <p>Conducted spy-themed tech event with codebreaking missions.</p>
       </div>
     </div>
+  </section>
 
-    <div class="achievement-card" data-aos="zoom-in" data-aos-delay="200">
-      <div class="achievement-badge">🕵️‍♂️</div>
-      <div class="achievement-title">Organizer – Tech Heist: Break the Code</div>
-      <div class="achievement-desc">
-        Planned and executed a spy-themed tech competition with interactive challenges and real-time scoring.
-      </div>
-    </div>
-
-    <div class="achievement-card" data-aos="zoom-in" data-aos-delay="300">
-      <div class="achievement-badge">💻</div>
-      <div class="achievement-title">Hackathon &amp; Coding Competition Participant</div>
-      <div class="achievement-desc">
-        Participated in multiple hackathons and coding contests, gaining hands-on problem-solving experience.
-      </div>
-       </div>
-
-       </div>
-    </section>
-
-    <br>
-    <br>
-     <!-- TESTIMONIALS SECTION -->
-<section id="testimonials" class="portfolio-section fade-in-up" tabindex="0" data-aos="fade-up">
-  <h2>Testimonials</h2>
-
-  <div id="testimonial-container">
+  <!-- TESTIMONIALS SECTION -->
+  <section id="testimonials" class="portfolio-section" data-aos="fade-up">
+    <h2>Testimonials</h2>
     <div class="testimonial-card">
-      <p class="testimonial-quote">“I sincerely appreciate your dedication and effort in preparing such an impressive software portfolio. Your work reflects not only your technical skills but also your creativity, problem-solving abilities, and attention to detail. The interface is user-friendly, and your presentation is both professional and well-structured.
-You have showcased great initiative and responsibility in completing this project with such quality. Keep up the excellent work👍”</p>
+      <p>“Your work reflects creativity and attention to detail. Excellent!”</p>
       <div class="testimonial-author">— Prof. Rohini Patel</div>
     </div>
     <div class="testimonial-card">
-      <p class="testimonial-quote">“Visible testimonial 2...”</p>
+      <p>“Visible testimonial 2...”</p>
       <div class="testimonial-author">— Kunal</div>
     </div>
-    <div class="testimonial-card">
-      <p class="testimonial-quote">“Visible testimonial 3...”</p>
-      <div class="testimonial-author">— Kunal Chuahan</div>
-    </div>
     <div class="testimonial-card hidden">
-      <p class="testimonial-quote">“Hidden testimonial 1...”</p>
-      <div class="testimonial-author">— Kunal Chuahan</div>
+      <p>“Hidden testimonial...”</p>
+      <div class="testimonial-author">— Kunal Chauhan</div>
     </div>
-    <div class="testimonial-card hidden">
-      <p class="testimonial-quote">“Hidden testimonial 2...”</p>
-      <div class="testimonial-author">— Kunal Chuahan</div>
+    <a id="show-more-btn" href="testimonials.html">Show More</a>
+  </section>
+
+  <!-- PROJECTS SECTION -->
+  <section id="projects" class="portfolio-section" data-aos="fade-up">
+    <h2>Projects</h2>
+    <div class="project-card">
+      <img src="images/balance-buddy.png" alt="Balance Buddy" />
+      <h3>Balance Buddy</h3>
+      <p>Fitness and wellness app with user-focused UI.</p>
+      <div class="tech-tags"><span>Flutter</span><span>SQL</span></div>
     </div>
-  </div>
-<a id="show-more-btn" href="testimonials.html">Show More</a>
-
-<br>
-
-<br>
-
-
-
-
-      <!-- PROJECTS SECTION -->
-     <section id="projects" class="portfolio-section fade-in-up" tabindex="0" data-aos="fade-up">
-  <h2>Projects & Leadership</h2>
-
-  <div class="project-card" data-aos="fade-left" data-aos-delay="100">
-    <img src="images/balance-buddy.png" alt="Balance Buddy App Screenshot" class="project-img" />
-    <h3 class="project-title">Balance Buddy</h3>
-    <p>Health and wellness app with fitness tracking and user-friendly interfaces.</p>
-    <div class="tech-tags">
-      <span class="tech-tag">Flutter</span>
-      <span class="tech-tag">SQL</span>
+    <div class="project-card">
+      <img src="images/streamlit-app.png" alt="Streamlit App" />
+      <h3>Smart Data Dashboard</h3>
+      <p>Streamlit-based dashboard for live analytics.</p>
+      <div class="tech-tags"><span>Python</span><span>HTML</span><span>CSS</span></div>
     </div>
-    <div class="project-links">
-      <a href="#" target="_blank" rel="noopener" class="btn-link">Live Demo</a>
-    </div>
-  </div>
+  </section>
 
-
-  <div class="project-card" data-aos="fade-left" data-aos-delay="400">
-  <img src="images/streamlit-app.png" alt="Streamlit Project Screenshot" class="project-img" />
-  <h3 class="project-title">Smart Data Dashboard</h3>
-  <p>Interactive web dashboard built using Streamlit, with clean UI and real-time data visualization.</p>
-  <div class="tech-tags">
-    <span class="tech-tag">Python</span>
-    <span class="tech-tag">Streamlit</span>
-    <span class="tech-tag">HTML</span>
-    <span class="tech-tag">CSS</span>
-  </div>
-  <div class="project-links">
-    <a href="https://skillmatch-cu.streamlit.app/" target="_blank" rel="noopener" class="btn-link">View Project</a>
-  </div>
-</div>
-
-  
-
-  <div class="project-card" data-aos="fade-left" data-aos-delay="300">
-    <img src="images/tech-heist.png" alt="Tech Heist Game Screenshot" class="project-img" />
-    <h3 class="project-title">Tech Heist: Break the Code</h3>
-    <p>Interactive, gamified website with secure authentication, real-time scoring, and suspense-driven challenges.</p>
-    <div class="tech-tags">
-      <span class="tech-tag">JavaScript</span>
-      <span class="tech-tag">HTML</span>
-      <span class="tech-tag">CSS</span>
-    </div>
-    <div class="project-links">
-      <a href="https://landngpage.vercel.app/" target="_blank" rel="noopener" class="btn-link">Live Demo</a>
-    </div>
-  </div>
-
-</section>
-
-
-  <!-- Contact Info (optional card style) -->
   <!-- CONTACT SECTION -->
-<section id="contact" class="portfolio-section fade-in-up" tabindex="0" data-aos="fade-up">
-  <h2>Contact Me</h2>
+  <section id="contact" class="portfolio-section" data-aos="fade-up">
+    <h2>Contact Me</h2>
+    <div class="contact-info">
+      <p><strong>Email:</strong> <a href="mailto:kunalchauhan2804@gmail.com">kunalchauhan2804@gmail.com</a></p>
+      <p><strong>Phone:</strong> <a href="tel:+917990381022">+91 79903 81022</a></p>
+      <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/kunal_chauhan2812" target="_blank">kunal_chauhan2812</a></p>
+      <p><strong>GitHub:</strong> <a href="https://github.com/kunalch122005" target="_blank">kunalch122005</a></p>
+    </div>
 
-  <!-- Contact Info -->
-  <div class="contact-info" data-aos="fade-right">
-    <p><strong>Email:</strong> <a href="mailto:kunalchauhan2804@gmail.com">kunalchauhan2804@gmail.com</a></p>
-    <p><strong>Phone:</strong> <a href="tel:+917990381022">+91 79903 81022</a></p>
-    <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/kunal_chauhan2812" target="_blank" rel="noopener noreferrer">kunal_chauhan2812</a></p>
-    <p><strong>GitHub:</strong> <a href="https://github.com/kunalch122005" target="_blank" rel="noopener noreferrer">kunalch122005</a></p>
-  </div>
+    <form id="contactForm">
+      <input type="text" name="name" placeholder="Your name" required />
+      <input type="email" name="email" placeholder="Your email" required />
+      <textarea name="message" placeholder="Type your message..." required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+    <p id="formResponse"></p>
+  </section>
 
-  <!-- Contact Form -->
- <form id="contactForm">
-  <label for="name">Your Name</label>
-  <input type="text" id="name" name="name" placeholder="Your name" required />
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 Kunal Chauhan – Developer • Designer • Dreamer.</p>
+  </footer>
 
-  <label for="email">Your Email</label>
-  <input type="email" id="email" name="email" placeholder="Your email" required />
+  <!-- BACK TO TOP -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
-  <label for="message">Your Message</label>
-  <textarea id="message" name="message" placeholder="Type your message here..." required></textarea>
-
-  <button type="submit">Send Message</button>
-</form>
-
-<p id="formResponse" role="alert" aria-live="polite"></p>
-
-
-<!-- Footer -->
-<footer style="text-align: center; margin-top: 40px; color: #837575;">
-  &copy; 2025 Kunal Chauhan – Developer • Designer • Dreamer.
-</footer>
-
- <!-- BACK-TO-TOP BUTTON -->
-<!-- Back to Top Button -->
-<button class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top" style="display: none;">
-  ↑
-</button>
-
-
-
-  <!-- ============================
-       EXTERNAL SCRIPTS
-       ============================ -->
-  <!-- VanillaTilt (for tilt effect on profile picture) -->
+  <!-- SCRIPTS -->
   <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.0/dist/vanilla-tilt.min.js"></script>
-
-  <!-- AOS.js for scroll animations (integrity & crossorigin removed) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-
-  <!-- Main JavaScript -->
   <script src="script.js"></script>
+
+  <!-- Small Inline Scripts -->
+  <script>
+    AOS.init();
+    document.querySelector(".nav-toggle").addEventListener("click", () => {
+      document.querySelector(".nav-links").classList.toggle("show");
+    });
+    document.getElementById("show-more-btn")?.addEventListener("click", function () {
+      document.querySelectorAll(".testimonial-card.hidden").forEach(card => {
+        card.classList.remove("hidden");
+        card.style.animation = "fadeInUp 0.6s ease forwards";
+      });
+      this.style.display = "none";
+    });
+  </script>
+
+  <style>
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </body>
 </html>
-
-<script>
-  AOS.init();
-  const navToggle = document.querySelector('.nav-toggle');
-  const navLinks = document.querySelector('.nav-links');
-
-  navToggle.addEventListener('click', () => {
-    navLinks.classList.toggle('show');
-  });
-</script>
-
-
-<script>
-  document.getElementById("show-more-btn").addEventListener("click", function () {
-    const hiddenCards = document.querySelectorAll(".testimonial-card.hidden");
-    hiddenCards.forEach(card => {
-      card.classList.remove("hidden");
-      card.style.animation = "fadeInUp 0.6s ease forwards";
-    });
-    this.style.display = "none"; // Hide button after showing more
-  });
-</script>
-
-<style>
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-</style>
-
