@@ -9,58 +9,49 @@ AOS.init({
 // ----------- Custom Cursor Behavior -----------
 const cursor = document.querySelector('.cursor');
 const cursorFollower = document.querySelector('.cursor-follower');
-
-let mouseX = 0, mouseY = 0;
-let posX = 0, posY = 0;
+let mouseX = 0, mouseY = 0, posX = 0, posY = 0;
 
 function animateCursor() {
   posX += (mouseX - posX) / 9;
   posY += (mouseY - posY) / 9;
-
-  // Because your CSS uses translate(-50%, -50%) for centering, set cursor position directly
   cursorFollower.style.transform = `translate(calc(${posX}px - 50%), calc(${posY}px - 50%))`;
   cursor.style.transform = `translate(calc(${mouseX}px - 50%), calc(${mouseY}px - 50%))`;
-
   requestAnimationFrame(animateCursor);
 }
-
 animateCursor();
 
 document.addEventListener('mousemove', (e) => {
   mouseX = e.clientX;
   mouseY = e.clientY;
 });
-const interactiveElements = document.querySelectorAll('a, button, input, textarea, label');
 
-interactiveElements.forEach(el => {
+document.querySelectorAll('a, button, input, textarea, label').forEach(el => {
   el.addEventListener('mouseenter', () => {
-    cursor.style.backgroundColor = '#ff0055';  // example: red fill
+    cursor.style.backgroundColor = '#ff0055';
     cursorFollower.style.borderColor = '#ff0055';
   });
   el.addEventListener('mouseleave', () => {
-    cursor.style.backgroundColor = '#00fffc'; // default cyan
+    cursor.style.backgroundColor = '#00fffc';
     cursorFollower.style.borderColor = '#00fffc';
   });
 });
 
-
 // ----------- Grab DOM Elements -----------
-const hackerText      = document.getElementById('hackerText');
+const hackerText = document.getElementById('hackerText');
 const bypassAnimation = document.getElementById('bypassAnimation');
-const accessDenied    = document.getElementById('accessDenied');
-const quantumIntro    = document.getElementById('quantum-intro');
-const portfolio       = document.getElementById('portfolio');
-const nav             = document.getElementById('portfolio-nav');
-const navLinks        = nav.querySelectorAll('a');
-
+const accessDenied = document.getElementById('accessDenied');
+const quantumIntro = document.getElementById('quantum-intro');
+const portfolio = document.getElementById('portfolio');
+const nav = document.getElementById('portfolio-nav');
+const navLinks = nav.querySelectorAll('a');
 const backToTopButton = document.getElementById('backToTop');
-const aboutBio        = document.getElementById('about-bio');
-const canvas          = document.getElementById('matrixCanvas');
-const ctx             = canvas.getContext('2d');
-// ----------- Messages for the Intro -----------
+const aboutBio = document.getElementById('about-bio');
+const canvas = document.getElementById('matrixCanvas');
+const ctx = canvas.getContext('2d');
 
-const TYPING_SPEED = 40; // Original feel (40-110ms per character)
-const MESSAGE_GAP = 150; // Between messages (reduced from 500ms)
+// ----------- Typing and Messages -----------
+const TYPING_SPEED = 40;
+const MESSAGE_GAP = 150;
 const BYPASS_SPEED = 400;
 const messages = [
   "> BOOTING DEVELOPER ENVIRONMENT...",
@@ -69,7 +60,6 @@ const messages = [
   "> OPTIMIZING FOR RESPONSIVENESS AND SPEED...",
   "> ESTABLISHING DEVELOPER CONSOLE ACCESS..."
 ];
-
 const bypassMessages = [
   "[!] Outdated design patterns detected... injecting modern UI frameworks",
   "[!] Routing through GitHub repositories...",
@@ -80,30 +70,61 @@ const bypassMessages = [
 
 let currentMessage = 0, currentChar = 0, currentBypass = 0;
 
-// ----------- Resize Canvas for Matrix Rain -----------
+function typeWriter() {
+  if (currentChar < messages[currentMessage].length) {
+    hackerText.innerHTML += messages[currentMessage].charAt(currentChar);
+    currentChar++;
+    setTimeout(typeWriter, Math.random() * 70 + TYPING_SPEED);
+  } else {
+    currentMessage++;
+    currentChar = 0;
+    if (currentMessage < messages.length) {
+      setTimeout(() => {
+        hackerText.innerHTML = "";
+        typeWriter();
+      }, MESSAGE_GAP);
+    } else {
+      startBypassAnimation();
+    }
+  }
+}
+
+function startBypassAnimation() {
+  bypassAnimation.innerHTML = bypassMessages[0];
+  currentBypass = 1;
+  const bypassInterval = setInterval(() => {
+    if (currentBypass < bypassMessages.length) {
+      bypassAnimation.innerHTML = bypassMessages[currentBypass];
+      currentBypass++;
+      if (currentBypass === 5) {
+        accessDenied.classList.add('access-granted');
+        accessDenied.textContent = "ACCESS GRANTED";
+      }
+    } else {
+      clearInterval(bypassInterval);
+      setTimeout(fadeOutIntroShowPortfolio, 500);
+    }
+  }, BYPASS_SPEED);
+}
+
+// ----------- Matrix Rain -----------
+const quantumChars = '01⨁⨂⨀⊗⊕↑↓←→⇄⇆⇌⇋⇔⇕⇖⇗⇘⇙⚛︎⌬⏣⏥⏦';
+const fontSize = 18;
 function resizeCanvas() {
-  canvas.width  = window.innerWidth;
+  canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 }
 resizeCanvas();
-
-// ----------- Matrix-Rain Effect Variables -----------
-const quantumChars = '01⨁⨂⨀⊗⊕↑↓←→⇄⇆⇌⇋⇔⇕⇖⇗⇘⇙⚛︎⌬⏣⏥⏦';
-const fontSize = 18;
 const columns = Math.floor(canvas.width / fontSize);
 const rainDrops = Array(columns).fill(-canvas.height / fontSize);
 
-// ----------- Draw Matrix Rain -----------
 function drawMatrix() {
   const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
   gradient.addColorStop(0, 'rgba(0,4,40,0.8)');
   gradient.addColorStop(1, 'rgba(0,78,146,0.6)');
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-
   ctx.shadowBlur = 5;
-  ctx.shadowColor = '#00fffc';
-  ctx.fillStyle = '#00fffc';
   ctx.font = `bold ${fontSize}px 'Courier New', monospace`;
 
   for (let i = 0; i < rainDrops.length; i++) {
@@ -130,53 +151,9 @@ function drawMatrix() {
   ctx.globalAlpha = 1;
   ctx.shadowBlur = 0;
 }
+setInterval(drawMatrix, 50);
 
-
-// ----------- Optimized Text Animations -----------
-function typeWriter() {
-  if (currentChar < messages[currentMessage].length) {
-    hackerText.innerHTML += messages[currentMessage].charAt(currentChar);
-    currentChar++;
-    setTimeout(typeWriter, Math.random() * 70 + TYPING_SPEED);
-  } else {
-    currentMessage++;
-    currentChar = 0;
-    if (currentMessage < messages.length) {
-      setTimeout(() => {
-        hackerText.innerHTML = "";
-        typeWriter();
-      }, MESSAGE_GAP);
-    } else {
-      startBypassAnimation();
-    }
-  }
-}
-
-function startBypassAnimation() {
-  bypassAnimation.innerHTML = bypassMessages[0];
-  currentBypass = 1;
-
-  const bypassInterval = setInterval(() => {
-    if (currentBypass < bypassMessages.length) {
-      bypassAnimation.innerHTML = bypassMessages[currentBypass];
-      currentBypass++;
-
-      if (currentBypass === 5) {
-        accessDenied.classList.add('access-granted');
-        accessDenied.textContent = "ACCESS GRANTED";
-      }
-    } else {
-      clearInterval(bypassInterval);
-      setTimeout(fadeOutIntroShowPortfolio, 500);
-    }
-  }, BYPASS_SPEED);
-}
-
-// Start animations
-typeWriter();
-const matrixInterval = setInterval(drawMatrix, 50);
-
-// ----------- Fade Out Intro & Show Portfolio -----------
+// ----------- Fade In Portfolio -----------
 function fadeOutIntroShowPortfolio() {
   quantumIntro.style.opacity = '0';
   setTimeout(() => {
@@ -187,7 +164,7 @@ function fadeOutIntroShowPortfolio() {
     navLinks[0].classList.add('active');
     window.scrollTo(0, 0);
     startAboutTyping();
-    revealOnScroll(); // Trigger any "fade-in-up" that might already be in view
+    revealOnScroll();
     VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
       max: 15,
       speed: 400,
@@ -197,7 +174,7 @@ function fadeOutIntroShowPortfolio() {
   }, 1000);
 }
 
-// ----------- Smooth Scroll & Active Nav Toggling -----------
+// ----------- Nav & Scroll Behavior -----------
 navLinks.forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
@@ -212,7 +189,6 @@ navLinks.forEach(link => {
   });
 });
 
-// ----------- On Scroll: Update Active Link, Reveal Elements, Toggle Back-to-Top -----------
 window.addEventListener('scroll', () => {
   if (!portfolio.classList.contains('visible')) return;
   updateActiveNav();
@@ -244,7 +220,7 @@ function revealOnScroll() {
   });
 }
 
-// ----------- “About Me” Typing Effect -----------
+// ----------- About Me Typing -----------
 const aboutText = "Web wizard, hackathon warrior, and future-ready developer blending code, logic, and a spark of rebellion.";
 function startAboutTyping() {
   let i = 0;
@@ -259,33 +235,29 @@ function startAboutTyping() {
   type();
 }
 
-// ----------- Animate Skill Bars When In View -----------
+// ----------- Skill Bar Animation -----------
 function animateSkillBars() {
   document.querySelectorAll('.progress-fill').forEach(bar => {
     const targetValue = parseInt(bar.getAttribute('data-value'));
     let currentValue = 0;
-
-    // Reset width and text initially
     bar.style.width = '0%';
     bar.textContent = '0%';
 
     const interval = setInterval(() => {
       if (currentValue >= targetValue) {
         clearInterval(interval);
-        bar.textContent = targetValue + '%';  // ensure final value
+        bar.textContent = targetValue + '%';
       } else {
         currentValue++;
         bar.style.width = currentValue + '%';
         bar.textContent = currentValue + '%';
       }
-    }, 15); // Speed of fill animation
+    }, 15);
   });
 }
 
-// Trigger animation when #skills section comes into view
 const skillsSection = document.querySelector('#skills');
 let skillsAnimated = false;
-
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting && !skillsAnimated) {
@@ -293,73 +265,54 @@ const observer = new IntersectionObserver((entries) => {
       skillsAnimated = true;
     }
   });
-}, {
-  threshold: 0.4 // 40% of section must be visible
-});
+}, { threshold: 0.4 });
 
 if (skillsSection) {
   observer.observe(skillsSection);
 }
 
-
-
-///....................contact details............ 
+// ----------- Contact Form -----------
 const contactForm = document.getElementById('contactForm');
 const formResponse = document.getElementById('formResponse');
 
 contactForm.addEventListener('submit', function (e) {
   e.preventDefault();
-
-  // Call EmailJS send function
   emailjs.send("your_service_id", "your_template_id", {
     name: contactForm.name.value,
     email: contactForm.email.value,
     message: contactForm.message.value
   })
-  .then(function () {
+  .then(() => {
     formResponse.textContent = '✅ Message sent successfully!';
     formResponse.style.color = 'lightgreen';
     contactForm.reset();
-  }, function (error) {
+  })
+  .catch((error) => {
     console.error('EmailJS Error:', error);
     formResponse.textContent = '❌ Failed to send message. Try again.';
     formResponse.style.color = 'red';
   });
 });
 
-// ----------- Back-to-Top Button -----------
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const backToTopButton = document.getElementById('backToTop');
-
-    backToTopButton.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    function toggleBackToTop() {
-      if (window.scrollY > window.innerHeight / 2) {
-        backToTopButton.style.display = 'flex';
-      } else {
-        backToTopButton.style.display = 'none';
-      }
-    }
-
-    window.addEventListener('scroll', toggleBackToTop);
-    toggleBackToTop(); // Run on load
-  });
-
-
-// ----------- Resize Canvas on Window Resize -----------
-window.addEventListener('resize', () => {
-  resizeCanvas();
+// ----------- Back to Top Button -----------
+backToTopButton.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-// ----------- On Window Load: Start Matrix Rain + Intro Sequence -----------
-window.addEventListener('load', () => {
-  // Start the matrix-rain loop
-  setInterval(drawMatrix, 50);
+function toggleBackToTop() {
+  if (window.scrollY > window.innerHeight / 2) {
+    backToTopButton.style.display = 'flex';
+  } else {
+    backToTopButton.style.display = 'none';
+  }
+}
+toggleBackToTop();
 
-  // Delay so that "ACCESS DENIED" CSS animation plays before the typewriter
+// ----------- Resize Canvas -----------
+window.addEventListener('resize', resizeCanvas);
+
+// ----------- Start Sequence on Load -----------
+window.addEventListener('load', () => {
   setTimeout(() => {
     accessDenied.style.transform = "scale(1.2)";
     accessDenied.style.transition = "transform 0.5s ease";
@@ -369,14 +322,3 @@ window.addEventListener('load', () => {
     }, 500);
   }, 1000);
 });
-
-// ----------- Contact Form Handler -----------
-document.getElementById('contactForm').addEventListener('submit', e => {
-  e.preventDefault();
-  const formResponse = document.getElementById('formResponse');
-  formResponse.style.color = '#aaeeff';
-  formResponse.textContent = "✓ Message sent! Thanks for reaching out.";
-  e.target.reset();
-});
-
-
